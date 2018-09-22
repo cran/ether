@@ -1,22 +1,39 @@
-hex_to_number <- function(hex, integer = TRUE) {
+#' Convert hexadecimal to decimal.
+#'
+#' @param hex Hexadecimal number as string.
+#' @param integer Whether result should be an integer.
+#'
+#' @return Numeric or integer.
+#' @export
+#'
+#' @examples
+#' hex_to_dec("0x5272")
+hex_to_dec <- function(hex, integer = TRUE) {
   hex <- ifelse(grepl("^0[xX]", hex), hex, paste0("0x", hex))
   #
-  number <- strtoi(hex)
+  dec <- strtoi(hex)
   #
-  number <- ifelse(is.na(number),
-                   if (integer) {
-                     mpfr(hex, base = 16)
-                   } else {
-                     class(hex) <- "numeric"
-                     as.numeric(sprintf("%.0f", hex))
-                   },
-                   number)
-  #
-  number
+  ifelse(is.na(dec),
+         if (integer) {
+           mpfr(hex, base = 16)
+         } else {
+           class(hex) <- "numeric"
+           as.numeric(sprintf("%.0f", hex))
+         },
+         dec)[[1]]
 }
 
-number_to_hex <- function(number) {
-  sprintf("0x%x", number)
+#' Convert decimal to hexadecimal.
+#'
+#' @param dec Decimal number.
+#'
+#' @return String.
+#' @export
+#'
+#' @examples
+#' dec_to_hex(21106)
+dec_to_hex <- function(dec) {
+  sprintf("0x%x", dec)
 }
 
 #' Convert Wei to kWei.
